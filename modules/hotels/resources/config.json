@@ -1,0 +1,8 @@
+{
+  "mongo":{
+    "dbName":"almundodb",
+    "collection":"almundoCollection",
+    "server": "localhost",
+    "port": 27017
+  }
+}
