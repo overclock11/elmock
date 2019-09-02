@@ -1,7 +1,11 @@
 {
-  "name": "api",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@overclock11/iron-mock",
+  "version": "0.0.5",
+  "repository":"https://github.com/overclock11/mocki",
+  "main": "./app.js",
+  "bin": {
+    "imock": "./cli.js"
+  },
   "scripts": {
     "start": "node app.js"
   },
