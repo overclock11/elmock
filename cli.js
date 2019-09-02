@@ -1,4 +1,6 @@
+#!/usr/bin/env node
 "use strict";
+
 const process = require('process');
 const childProcess = require('child_process');
 
