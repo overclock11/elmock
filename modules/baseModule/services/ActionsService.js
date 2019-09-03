@@ -9,6 +9,11 @@ class ActionsService {
         this.pathToData =_pathToData;
     }
 
+    requireUncached(module){
+        delete require.cache[require.resolve(module)];
+        return require(module)
+    }
+
     /**
      * Consulta los datos paginandolos y filtrandolos
      * @param pageNumber {number}
@@ -19,7 +24,7 @@ class ActionsService {
     getData(pageNumber, pageSize, filterBy, filterText){
         return new Promise((resolve,reject) =>{
             try{
-                let data = require(this.pathToData);
+                let data = this.requireUncached(this.pathToData);
                 pageNumber = parseInt(pageNumber);
                 pageSize = parseInt(pageSize);
                 filterText = filterText.toLowerCase();
