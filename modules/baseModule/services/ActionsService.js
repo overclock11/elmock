@@ -22,6 +22,7 @@ class ActionsService {
                 let data = require(this.pathToData);
                 pageNumber = parseInt(pageNumber);
                 pageSize = parseInt(pageSize);
+                filterText = filterText.toLowerCase();
                 let newResult = data;
                 let totalRecords = data.length;
                 if (typeof filterBy !== 'undefined' || typeof filterText !== 'undefined') {
@@ -57,6 +58,13 @@ class ActionsService {
         });
     }
 
+    /**
+     * Actualiza un registro basando en el campo a tomar como id
+     * @param field {string}
+     * @param id {number|string}
+     * @param body {object}
+     * @returns {Promise<body>}
+     */
     updateData(field, id, body) {
         return new Promise ((resolve,reject)=>{
             try{
@@ -90,6 +98,85 @@ class ActionsService {
                 reject(e);
             }
         });
+    }
+
+
+    /**
+     * Elimina un registro basado en el id recibido y el campo de referencia
+     * @param field {string}
+     * @param id {string|number}
+     * @returns {Promise<any>}
+     */
+    deleteData(field, id) {
+        return new Promise((resolve,reject)=>{
+            try{
+                let data = require(this.pathToData);
+                let position = -1;
+                let absolutePath = '';
+                let deletedItem={};
+                for(let i = 0 ; i < data.length; i++) {
+                    if (data[i][field] === id) {
+                        position = i;
+                        break;
+                    }
+                }
+                if (position>=0) {
+                    deletedItem = data.splice(position,1);
+                } else {
+                    reject(204);
+                }
+                if (!path.isAbsolute(this.pathToData)){
+                    absolutePath = path.resolve(__dirname+'\\'+this.pathToData);
+                    fs.writeFile(absolutePath+'.json', JSON.stringify(data), 'utf8', (result)=>{
+                        if(result){
+                            reject(result);
+                        }
+                        resolve(deletedItem);
+                    });
+                } else {
+                    fs.writeFile(this.pathToData+'.json', JSON.stringify(data), 'utf8', (result)=>{
+                        if(result){
+                            reject(result);
+                        }
+                        resolve(deletedItem);
+                    });
+                }
+            } catch (e) {
+                reject(e);
+            }
+        })
+    }
+
+    addItem(body){
+        return new Promise((resolve, reject)=>{
+          try{
+              let data = require(this.pathToData);
+              let absolutePath = '';
+              if (typeof body.length === 'undefined') {
+                  data.push(body)
+              } else {
+                  data = data.concat(body);
+              }
+              if (!path.isAbsolute(this.pathToData)){
+                  absolutePath = path.resolve(__dirname+'\\'+this.pathToData);
+                  fs.writeFile(absolutePath+'.json', JSON.stringify(data), 'utf8', (result)=>{
+                      if(result){
+                          reject(result);
+                      }
+                      resolve(body);
+                  });
+              } else {
+                  fs.writeFile(this.pathToData+'.json', JSON.stringify(data), 'utf8', (result)=>{
+                      if(result){
+                          reject(result);
+                      }
+                      resolve(body);
+                  });
+              }
+          } catch (e) {
+              reject(e);
+          }
+        })
     }
 
 }

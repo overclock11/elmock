@@ -43,5 +43,36 @@ class ActionsController {
             });
         });
     }
+
+    /**
+     * Elimina un registro del json usando el campo indicado y el id
+     * @param field {string}
+     * @param id {string|number}
+     * @returns {Promise<any>}
+     */
+    deleteContent (field, id){
+        return new Promise((resolve, reject)=>{
+            this.actionsService.deleteData(field, id).then((data)=>{
+                resolve(data);
+            }, (error)=>{
+                reject(error);
+            });
+        })
+    }
+
+
+    addContent (body){
+        return new Promise ((resolve, reject)=>{
+            try{
+                this.actionsService.addItem(body).then((data)=>{
+                    resolve(data);
+                }, (error)=>{
+                    reject(error);
+                });
+            } catch (e) {
+                reject(e);
+            }
+        })
+    }
 }
 module.exports = ActionsController;

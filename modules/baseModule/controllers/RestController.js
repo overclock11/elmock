@@ -28,6 +28,28 @@ class RestController {
         });
 
 
+        router.delete('/base/:field/:id', (req, res) => {
+            this.actionsController.deleteContent(req.params.field, req.params.id).then((result)=>{
+                res.status(200).json(result);
+            }, (err) =>{
+                if (err === 204) {
+                    res.status(204).json();
+                } else {
+                    res.status(500).json(err);
+                }
+            })
+        });
+
+
+        router.post('/base', (req, res) => {
+            this.actionsController.addContent(req.body).then((result)=>{
+                res.status(200).json(result);
+            }, (err) =>{
+                res.status(500).json(err);
+            })
+        });
+
+
         return router;
     }
 }
