@@ -3,6 +3,7 @@
 
 const process = require('process');
 const childProcess = require('child_process');
+const writeModule = require('./cli/addModule');
 
 if(process.argv[2] === 'start'){
     runScript('./app.js', (message) =>{
@@ -10,9 +11,16 @@ if(process.argv[2] === 'start'){
     });
 }
 
-function runScript(scriptPath, callback) {
+if(process.argv[2] === 'service'){
+    runScript('./cli/addModule.js', async (message) =>{
+        let a = await writeModule.readModules();
+        console.log(a);
+    });
+}
+
+async function runScript(scriptPath, callback) {
     let invoked = false;
-    let process = childProcess.fork(scriptPath);
+    let process = childProcess.fork(scriptPath,{execArgv: ['--harmony']});
 
     process.on('error', function (err) {
         if (invoked) return;
