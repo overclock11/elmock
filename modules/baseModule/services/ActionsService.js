@@ -27,10 +27,10 @@ class ActionsService {
                 let data = this.requireUncached(this.pathToData);
                 pageNumber = parseInt(pageNumber);
                 pageSize = parseInt(pageSize);
-                filterText = filterText.toLowerCase();
                 let newResult = data;
                 let totalRecords = data.length;
                 if (typeof filterBy !== 'undefined' || typeof filterText !== 'undefined') {
+                    filterText = filterText.toLowerCase();
                     newResult = data.filter((item)=>{
                         if(item[filterBy].toLowerCase().indexOf(filterText)>0){
                             return true;

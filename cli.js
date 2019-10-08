@@ -3,7 +3,7 @@
 
 const process = require('process');
 const childProcess = require('child_process');
-const writeModule = require('./cli/addModule');
+const WriteModule = require('./cli/addModule');
 
 if(process.argv[2] === 'start'){
     runScript('./app.js', (message) =>{
@@ -12,15 +12,11 @@ if(process.argv[2] === 'start'){
 }
 
 if(process.argv[2] === 'service'){
-    runScript('./cli/addModule.js', async (message) =>{
-        let a = await writeModule.readModules();
-        console.log(a);
-    });
+    // solo crea archivos
 }
-
 async function runScript(scriptPath, callback) {
     let invoked = false;
-    let process = childProcess.fork(scriptPath,{execArgv: ['--harmony']});
+    let process = childProcess.fork(scriptPath, {execArgv: ['--harmony']});
 
     process.on('error', function (err) {
         if (invoked) return;
@@ -34,5 +30,9 @@ async function runScript(scriptPath, callback) {
         invoked = true;
         var err = code === 0 ? null : new Error('exit code ' + code);
         callback(err);
+    });
+
+    process.on('message', function (code) {
+        callback(code);
     });
 }

@@ -14,7 +14,7 @@ class RestController {
             this.actionsController.getContent(req.query.pageNumber, req.query.pageSize, req.query.filterBy, req.query.filterText).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
-                res.status(500).json(err);
+                res.status(500).json(err.message);
             })
         });
 
@@ -23,7 +23,7 @@ class RestController {
             this.actionsController.updateContent(req.params.field, req.params.id, req.body).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
-                res.status(500).json(err);
+                res.status(500).json(err.message);
             })
         });
 
@@ -35,7 +35,7 @@ class RestController {
                 if (err === 204) {
                     res.status(204).json();
                 } else {
-                    res.status(500).json(err);
+                    res.status(500).json(err.message);
                 }
             })
         });
@@ -45,11 +45,10 @@ class RestController {
             this.actionsController.addContent(req.body).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
-                res.status(500).json(err);
+                res.status(500).json(err.message);
             })
         });
-
-
+        console.log("levantando base");
         return router;
     }
 }

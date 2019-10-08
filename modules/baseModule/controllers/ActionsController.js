@@ -14,8 +14,8 @@ class ActionsController {
      * Consulta los datos paginandolos y filtrandolos
      * @param pageNumber {number}
      * @param pageSize {number}
-     * @param filterBy {string}
-     * @param filterText {string}
+     * @param filterBy {string} opcional
+     * @param filterText {string} opcional
      */
     getContent (pageNumber, pageSize, filterBy, filterText){
         return new Promise((resolve,reject)=>{

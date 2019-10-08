@@ -2,7 +2,7 @@
 
 const RestController = require("./controllers/RestController");
 
-class HotelsBoot {
+class Hotels {
 
     constructor(){
         this._restController = new RestController();
@@ -12,4 +12,4 @@ class HotelsBoot {
         return this._restController.createServices();
     }
 }
-module.exports = HotelsBoot;
+module.exports = Hotels;
