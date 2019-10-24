@@ -9,7 +9,6 @@ class Modules {
 
     static async registerModule(app, instance) {
         app.use('/api',instance.setup());
-        console.log("abasdad");
         return app;
     }
 }

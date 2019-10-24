@@ -12,7 +12,9 @@ if(process.argv[2] === 'start'){
 }
 
 if(process.argv[2] === 'service'){
-    // solo crea archivos
+    let moduleName = process.argv[3].trim().replace(' ', '');
+    moduleName = moduleName.charAt(0).toUpperCase()+moduleName.slice(1);
+    WriteModule.createFiles(moduleName)
 }
 async function runScript(scriptPath, callback) {
     let invoked = false;

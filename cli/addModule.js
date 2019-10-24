@@ -1,5 +1,6 @@
 "use strict";
 const fs = require('fs');
+const fsExtra = require('fs-extra');
 const path = require('path');
 const Modules =  require('../modules');
 
@@ -7,6 +8,10 @@ class WriteNewModule {
     constructor () {
     }
 
+    /**
+     * Lee el archivo de configuración donde se encuentran los nombres de los módulos que va levantar
+     * @returns {Promise<void>}
+     */
     static async readModules (){
         return fs.readFileSync(path.resolve(__dirname+'\\../config.json'),'utf8', (error, data)=>{
             if (error){
@@ -38,11 +43,16 @@ class WriteNewModule {
     }
 
 
-    static createFiles () {
-        console.log("creando modulos");
-        setTimeout(()=>{
-            console.log("modulos creados");
-        }, 1000);
+    static async createFiles (moduleName) {
+        const folders = ["controllers","repository","resources","services"];
+        let modulePath = path.join(__dirname, '../modules/'+moduleName);
+        if (fs.existsSync(modulePath)) {
+            fsExtra.removeSync(modulePath);
+        }
+        fs.mkdirSync(modulePath);
+        for (let i = 0 ; i < 4; i++) {
+            fs.mkdirSync(path.join(__dirname, '../modules/'+moduleName+"/"+folders[i]));
+        }
     }
 }
 

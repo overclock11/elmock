@@ -9,8 +9,8 @@ class RestController {
         this.actionsController = new ActionsController();
     }
 
-    createServices(){
-        router.get('/base', (req, res) => {
+    createServices(apiName = '/base'){
+        router.get(apiName, (req, res) => {
             this.actionsController.getContent(req.query.pageNumber, req.query.pageSize, req.query.filterBy, req.query.filterText).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
@@ -19,7 +19,7 @@ class RestController {
         });
 
 
-        router.put('/base/:field/:id', (req, res) => {
+        router.put(apiName+'/:field/:id', (req, res) => {
             this.actionsController.updateContent(req.params.field, req.params.id, req.body).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
@@ -28,7 +28,7 @@ class RestController {
         });
 
 
-        router.delete('/base/:field/:id', (req, res) => {
+        router.delete(apiName+'/:field/:id', (req, res) => {
             this.actionsController.deleteContent(req.params.field, req.params.id).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
@@ -41,7 +41,7 @@ class RestController {
         });
 
 
-        router.post('/base', (req, res) => {
+        router.post(apiName, (req, res) => {
             this.actionsController.addContent(req.body).then((result)=>{
                 res.status(200).json(result);
             }, (err) =>{
